@@ -8,7 +8,7 @@ Every API request sent to an etcd server is a gRPC remote procedure call. RPCs i
 
 Services important for dealing with etcd's key space include:
 * KV - Creates, updates, fetches, and deletes key-value pairs.
-* Watch - Monitors changes to keys.
+* Watch - Monitors changes to keys``.
 * Lease - Primitives for consuming client keep-alive messages.
 
 Services which manage the cluster itself include:

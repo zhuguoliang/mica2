@@ -3,12 +3,12 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(MICA)
 
 
-SET(CMAKE_CXX_COMPILER g++-5)
-SET(CMAKE_C_LINK_EXECUTABLE g++-5)
+SET(CMAKE_CXX_COMPILER g++)
+SET(CMAKE_C_LINK_EXECUTABLE g++)
 
 
 
-OPTION(DEBUG "Enable debugging" OFF)
+OPTION(DEBUG "Enable debugging" ON)
 OPTION(LTO "Use link time optimization" OFF)
 
 # OPTION(AVX2 "Enable AVX2" ON)
@@ -39,6 +39,12 @@ ADD_DEFINITIONS(-pthread)
 
 ADD_DEFINITIONS(-g)
 
+#zgl add local glibc configuration
+#include_directories(/root/mysoft/glibc-2.23/include/)
+#LINK_DIRECTORIES(/root/mysoft/glibc-2.23/lib /root/mysoft/gcc-5.3/lib64)
+#LINK_DIRECTORIES(/root/mysoft/gcc-5.3/lib64)
+#ADD_DEFINITIONS(-L/root/mysoft/glibc-2.23/lib)
+#SET(CMAKE_INSTALL_RPATH  /root/mysoft/gcc-5.3/lib64 /root/mysoft/glibc-2.23/lib)
 
 
 IF(DEBUG)
@@ -132,7 +138,7 @@ SET(LIBRARIES ${LIBRARIES} rt numa pthread)
 SET(LIBRARIES ${LIBRARIES} curl)
 # SET(LIBRARIES ${LIBRARIES} boost_coroutine boost_system)
 
-
+#zgl set up local 
 
 IF(LTO)
 

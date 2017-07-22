@@ -9,6 +9,8 @@
 #include "mica/util/hash.h"
 #include "mica/util/zipf.h"
 #include "mica/util/tsc.h"
+#include "../util/config.h"
+#include "../util/lcore.h"
 
 struct LTableConfig : public ::mica::table::BasicLossyLTableConfig {
   // struct LTableConfig : public ::mica::table::BasicLosslessLTableConfig {
@@ -212,7 +214,7 @@ void benchmark(double zipf_theta) {
 
   size_t key_length = ::mica::util::roundup<8>(sizeof(uint64_t));
   size_t value_length = ::mica::util::roundup<8>(sizeof(uint64_t));
-
+//do alloc
   PartitionsConfig::Alloc alloc(config.get("alloc"));
 
   char* keys =

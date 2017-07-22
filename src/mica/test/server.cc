@@ -1,5 +1,7 @@
 #include "mica/datagram/datagram_server.h"
 #include "mica/util/lcore.h"
+#include "../util/lcore.h"
+#include "../util/config.h"
 
 struct DPDKConfig : public ::mica::network::BasicDPDKConfig {
   static constexpr bool kVerbose = true;

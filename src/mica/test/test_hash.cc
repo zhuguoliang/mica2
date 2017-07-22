@@ -2,6 +2,7 @@
 #include "mica/util/lcore.h"
 #include "mica/util/stopwatch.h"
 #include "mica/util/hash.h"
+#include "../util/lcore.h"
 
 static ::mica::util::Stopwatch sw;
 
@@ -37,7 +38,7 @@ int main(int argc, const char* argv[]) {
 
   sw.init_start();
   sw.init_end();
-
+  //compare hash time
   benchmark("CityHash", ::mica::util::hash_cityhash<uint64_t>);
   benchmark("SipHash", ::mica::util::hash_siphash<uint64_t>);
 

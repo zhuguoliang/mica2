@@ -582,7 +582,7 @@ void* HugeTLBFS_SHM::find_free_address(size_t size) {
   p = (void*)(((size_t)p + (alignment - 1)) & ~(alignment - 1));
   return p;
 }
-
+//huge page meta data returns entry id
 size_t HugeTLBFS_SHM::alloc(size_t length, size_t numa_node) {
   if (numa_node == (size_t)-1) {
     // using rte_socket_id() is unreliable on some systems (physical id of
@@ -758,7 +758,7 @@ bool HugeTLBFS_SHM::map(size_t entry_id, void* ptr, size_t offset,
       assert(false);
       break;
     }
-
+    //map once for each 2MB huge page
     void* ret_p = mmap(p, kPageSize, PROT_READ | PROT_WRITE,
                        MAP_SHARED | MAP_FIXED, fd, 0);
     // void* ret_p = mmap(p, kPageSize, PROT_READ | PROT_WRITE, MAP_SHARED, fd,
@@ -870,16 +870,18 @@ void* HugeTLBFS_SHM::malloc_contiguous(size_t size, size_t lcore) {
     fprintf(stderr, "error: invalid lcore\n");
     return nullptr;
   }
-
+  //dealing with meta data
   size_t entry_id = alloc(size, numa_node);
   // fprintf(stderr, "entry_id=%zu, size=%zu\n", entry_id, size);
   if (entry_id == kInvalidId) return nullptr;
   while (true) {
+    //doing mmap to alloc
     void* p = HugeTLBFS_SHM::find_free_address(size);
     if (p == nullptr) {
       schedule_release(entry_id);
       return nullptr;
     }
+    //check and init mapping
     if (map(entry_id, p, 0, size)) {
       schedule_release(entry_id);
       return p;
